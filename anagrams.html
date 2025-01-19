@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagram Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .word-container {
+            font-size: 24px;
+            margin: 20px;
+        }
+        .input-container {
+            margin: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            width: 200px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .score {
+            font-size: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anagram Game</h1>
+    <div class="word-container">
+        <p>Unscramble the word below:</p>
+        <p id="anagramWord"></p>
+    </div>
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Your guess">
+        <button onclick="checkAnswer()">Check</button>
+    </div>
+    <div class="message" id="message"></div>
+    <div class="score" id="score">Score: 0</div>
+
+    <script>
+        const words = ["apple", "banana", "cherry", "grape", "orange", "lemon"];
+        let currentWord = "";
+        let score = 0;
+
+        function getRandomWord() {
+            return words[Math.floor(Math.random() * words.length)];
+        }
+
+        function scrambleWord(word) {
+            const scrambled = word.split('').sort(() => Math.random() - 0.5).join('');
+            return scrambled;
+        }
+
+        function loadNewWord() {
+            currentWord = getRandomWord();
+            const scrambledWord = scrambleWord(currentWord);
+            document.getElementById("anagramWord").textContent = scrambledWord;
+            document.getElementById("userInput").value = "";
+            document.getElementById("message").textContent = "";
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("userInput").value.toLowerCase();
+            if (userAnswer === currentWord) {
+                score++;
+                document.getElementById("message").textContent = "Correct! Well done.";
+            } else {
+                document.getElementById("message").textContent = "Incorrect! Try again.";
+            }
+            document.getElementById("score").textContent = `Score: ${score}`;
+            loadNewWord();
+        }
+
+        // Start the game
+        loadNewWord();
+    </script>
+</body>
+</html>
